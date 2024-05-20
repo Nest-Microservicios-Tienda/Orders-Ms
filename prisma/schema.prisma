@@ -26,8 +26,8 @@ model Order {
 
   status OrderStatus
   pay Boolean @default(false)
-  paidAt DateTime
+  paidAt DateTime?
   
   createdAt DateTime @default(now())
-  updateAt DateTime 
+  updateAt DateTime @updatedAt
 }
