@@ -21,7 +21,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  logger.log(`Orders Microservice esta corriendo en el servidor ${envs.port}`);
   await app.listen();
-  logger.log(`La aplicacion esta corriendo en el servidor ${envs.port}`);
 }
 bootstrap();
