@@ -14,9 +14,7 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class OrdersService extends PrismaClient implements OnModuleInit {
   private readonly logger = new Logger('OrderService');
-  constructor(
-    @Inject('PRODUCTS_MS') private readonly productsClient: ClientProxy,
-  ) {
+  constructor(@Inject('NATS_SERVICE') private readonly client: ClientProxy) {
     super();
   }
   async onModuleInit() {
@@ -29,7 +27,7 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
       //1 Confirmar los ids de los productos
       const productIds = createOrderDto.items.map((item) => item.productId);
       const products: any[] = await firstValueFrom(
-        this.productsClient.send({ cmd: 'validate_id' }, productIds),
+        this.client.send({ cmd: 'validate_id' }, productIds),
       );
 
       //2. Cálculos de los valores
@@ -90,7 +88,7 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.order.findMany();
   }
 
   async findOne(id: string) {
